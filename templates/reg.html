@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+{% extends 'home.html '%}
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Reg</title>
+  </head>
+  <body>
+  {% block body_block %}
+  <div class="jumbotron">
+
+    {% if register %}
+    <h1>Thanks for registering </h1>
+    <h3>Your name is {{username}}</h3>
+    <h3>Your email ID is {{email}}</h3>
+    {% else %}
+    <h1>Register here</h1>
+  <form enctype="multipart/form-data" method="post">
+      {% csrf_token %}
+      {{form.as_p}}
+   <input type="submit" name="" value="register">
+    </form>
+
+    </div>
+    {% endif %}
+    {% endblock %}
+
+  </body>
+</html>

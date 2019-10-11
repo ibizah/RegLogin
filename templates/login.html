@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+{% extends 'home.html '%}
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Login page</title>
+  </head>
+  <body>
+    {% block body_block %}
+    <h1>Login here </h1>
+    <form  action="{% url 'demoapp:user_login' %}" method="post">
+      {% csrf_token %}
+      <label for="username"> Username</label>
+      <input type="text" name="username" placeholder="Enter username">
+
+      <label for="password">Password</label>
+      <input type="password" name="password" >
+
+      <input type="submit" name="" value="Login">
+
+    </form>
+
+
+    {% endblock %}
+
+  </body>
+</html>
