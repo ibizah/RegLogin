@@ -4,6 +4,9 @@ from .models import Employee
 #from django.http import HttpResponse
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
+
 #from rest_framework import status
 from .serializers import EmployeeSerializers
 from django.contrib.auth.forms import UserCreationForm
@@ -15,16 +18,51 @@ from django.contrib.auth.decorators import login_required
 from demoapp import views
 
 
-
-
 class Empview(APIView):
     def get(self,request):
         employee= Employee.objects.all()
         serializer= EmployeeSerializers(employee, many=True)
         return Response(serializer.data)
 
-    def post(self):
+    def post(self,slug):
         pass
+
+
+@api_view(['PUT', ])
+def Empupdate(request,slug):
+
+    employee=Employee.objects.get(slug=slug)
+
+    if request.method=='PUT':
+        serializer= EmployeeSerializers(employee, data=request.data)
+        data={}
+        if serializer.is_valid():
+            serializer.save()
+            data['success']=' update Successful'
+            return Response(data=data)
+        return Response(serializer.errors)
+
+@api_view(['DELETE', ])
+def Empdelete(request, slug):
+
+    employee=Employee.objects.get(slug=slug)
+
+    if request.method=='DELETE':
+        operation= employee.delete()
+        data={}
+        if operation:
+            data['success']='delete succesful'
+        else:
+            data['failure']='delete failed'
+
+@api_view(['POST', ])
+def EmpCreate(request):
+    employee=Employee.objects.create(fname=request.data['fname'],email=request.data['email'], age=request.data['age'])
+    serializer=Employee(employee,data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data)
+    return Response(serializer.error)
 # Create your views here.
 
 def home(request):
@@ -105,18 +143,20 @@ def reg(request):
     if request.method =='POST':
         userform = RegForm(data=request.POST)
         if userform.is_valid():
-            name= userform.cleaned_data['username']
-            email= userform.cleaned_data['email']
-            print('*******************************')
-            print(f'your name is {name} email is {email}')
+            # name= userform.cleaned_data['username']
+            # email= userform.cleaned_data['email']
+            # print('*******************************')
+            # print(f'your name is {name} email is {email}')
 
-            form=userform.save(commit=True)
+            form=userform.save()
             form.set_password(form.password)
             form.save()
+            register= True
+
             d={'username':name, 'email':email}
 
 
-            register= True
+
 
         else:
             print(userform.errors)

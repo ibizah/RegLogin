@@ -27,12 +27,14 @@ SECRET_KEY = 'wy^$!6^e0ktrrm$43aw0xverqlb-z5kzff3x4#k4*e#u1rm+g_'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['ibizah18.pythonanywhere.com']
+ALLOWED_HOSTS = ['127.0.0.1', 'ibizah18.pythonanywhere.com',
+                       'localhost']
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'api.apps.ApiConfig',
     'rest_framework',
     'demoapp.apps.DemoappConfig',
     'django.contrib.admin',
@@ -80,7 +82,10 @@ WSGI_APPLICATION = 'demo.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'NAME':'cbvdb',
+        'USER':'postgres',
+        'PASSWORD':'181881ib',
+        'PORT':'5432'
 
     }
 }

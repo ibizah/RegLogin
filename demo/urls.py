@@ -25,6 +25,7 @@ from demoapp import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('demoapp.urls')),
+    path('user/', include('api.urls')),
     path('logout/', views.user_logout, name='logout'),
     path('special/', views.special, name='special'),
 
